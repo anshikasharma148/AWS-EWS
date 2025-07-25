@@ -11,7 +11,7 @@ export async function GET(request) {
   since.setDate(now.getDate() - days); // Subtract 'days' from current date
 
   const connection = await mysql.createConnection({
-    host: '192.168.5.60',
+    host: '192.168.0.106',
     user: 'aws_user',
     password: 'ubuntu@123',
     database: 'AWS',

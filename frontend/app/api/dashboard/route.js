@@ -6,7 +6,7 @@ export async function GET() {
   try {
     // Connect to AWS DB for weather data
     awsConnection = await mysql.createConnection({
-      host: '192.168.5.60',
+      host: '192.168.0.106',
       user: 'aws_user',
       password: 'ubuntu@123',
       database: 'AWS',
@@ -36,7 +36,7 @@ export async function GET() {
 
     // Connect to EWS DB for water data (3 stations)
     ewsConnection = await mysql.createConnection({
-      host: '192.168.5.60',
+      host: '192.168.0.106',
       user: 'ews_user',
       password: 'ubuntu@123',
       database: 'EWS',

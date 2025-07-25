@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 
 export async function GET() {
   const connection = await mysql.createConnection({
-    host: '192.168.5.60',
+    host: '192.168.0.106',
     user: 'aws_user',
     password: 'ubuntu@123',
     database: 'AWS',
