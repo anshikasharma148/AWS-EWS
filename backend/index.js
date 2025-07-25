@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // ✅ Start AWS and EWS data generation
-require('./aws_generateData');      // runs aws insert and interval
+require('./aws-generateData');      // runs aws insert and interval
 require('./ews-generateData');      // runs ews insert and interval
 
 // AWS API route
