@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// ✅ Start AWS and EWS data generation
+require('./aws_generateData');      // runs aws insert and interval
+require('./ews-generateData');      // runs ews insert and interval
+
 // AWS API route
 app.get('/api/aws', (req, res) => {
   awsConnection.query('SELECT * FROM weather_data ORDER BY timestamp DESC LIMIT 50', (err, results) => {
@@ -32,5 +36,6 @@ app.get('/api/ews', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(` Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
+
