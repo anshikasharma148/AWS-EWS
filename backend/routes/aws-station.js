@@ -1,9 +1,8 @@
-// routes/aws-station.js
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const { awsDB } = require('../db'); // ✅ FIX: Destructure awsDB from db.js
 
-// Valid station tables (update as needed)
+// Valid station tables
 const validStations = ['vishnu_prayag', 'mana', 'vasudhara', 'binakuli'];
 
 router.get('/:station_name', async (req, res) => {
@@ -14,7 +13,7 @@ router.get('/:station_name', async (req, res) => {
   }
 
   try {
-    const [rows] = await db.query(
+    const [rows] = await awsDB.query( // ✅ USE awsDB instead of db
       `SELECT * FROM \`${stationName}\` ORDER BY timestamp DESC LIMIT 1`
     );
 
@@ -30,3 +29,4 @@ router.get('/:station_name', async (req, res) => {
 });
 
 module.exports = router;
+
