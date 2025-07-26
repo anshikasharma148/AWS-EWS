@@ -5,13 +5,13 @@ const { awsDB } = require('../db');
 // Valid station tables
 const validStations = ['vishnu_prayag', 'mana', 'vasudhara', 'binakuli'];
 
-// Helper function to build WHERE clause based on range
+// Helper to get full date range for filtering
 function getDateRangeCondition(range) {
   switch (range) {
     case 'today':
-      return `DATE(timestamp) = CURDATE()`;
+      return `timestamp >= CURDATE() AND timestamp < CURDATE() + INTERVAL 1 DAY`;
     case 'yesterday':
-      return `DATE(timestamp) = CURDATE() - INTERVAL 1 DAY`;
+      return `timestamp >= CURDATE() - INTERVAL 1 DAY AND timestamp < CURDATE()`;
     case '3days':
       return `timestamp >= NOW() - INTERVAL 3 DAY`;
     case '7days':
@@ -19,13 +19,13 @@ function getDateRangeCondition(range) {
     case '30days':
       return `timestamp >= NOW() - INTERVAL 30 DAY`;
     default:
-      return null; // for latest single data fetch
+      return null;
   }
 }
 
 router.get('/:station_name', async (req, res) => {
   const stationName = req.params.station_name;
-  const range = req.query.range; // Optional query param like ?range=7days
+  const range = req.query.range; // ?range=today, etc.
 
   if (!validStations.includes(stationName)) {
     return res.status(400).json({ error: 'Invalid station name' });
@@ -35,10 +35,13 @@ router.get('/:station_name', async (req, res) => {
     let query = '';
     let values = [];
 
-    if (range && getDateRangeCondition(range)) {
-      const condition = getDateRangeCondition(range);
-      query = `SELECT * FROM \`${stationName}\` WHERE ${condition} ORDER BY timestamp DESC`;
+    const condition = getDateRangeCondition(range);
+
+    if (range && condition) {
+      // If range filter is applied
+      query = `SELECT * FROM \`${stationName}\` WHERE ${condition} ORDER BY timestamp ASC`;
     } else {
+      // Fetch latest single data
       query = `SELECT * FROM \`${stationName}\` ORDER BY timestamp DESC LIMIT 1`;
     }
 
