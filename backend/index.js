@@ -5,7 +5,9 @@ const { awsDB, ewsDB } = require('./db');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const awsRoutes = require('./routes/awsRoutes');
+const ewsRoutes = require('./routes/ewsRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 app.use(cors());
 app.use(express.json());
 
@@ -17,6 +19,11 @@ require('./ews-generateData');
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
 const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara'];
 
+
+
+app.use('/api/aws', awsRoutes);
+app.use('/api/ews', ewsRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 // 🔹 Fetch data for all AWS tables
 app.get('/api/aws', async (req, res) => {
   try {
