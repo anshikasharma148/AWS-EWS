@@ -1,9 +1,8 @@
-// backend/routes/ewsRoutes.js
 const express = require('express');
 const router = express.Router();
 const { ewsDB } = require('../db');
 
-const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara'];
+const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara', 'binakuli', 'mana', 'khiro'];
 
 // Get data from specific EWS table
 router.get('/:station', (req, res) => {
@@ -31,3 +30,4 @@ router.get('/all/data', async (req, res) => {
 });
 
 module.exports = router;
+

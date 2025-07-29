@@ -5,7 +5,9 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const locations = ['ghastoli', 'lambagad', 'vasudhara'];
+// Add new EWS tables here
+const locations = ['ghastoli', 'lambagad', 'vasudhara', 'binakuli', 'mana', 'khiro'];
+
 
 function generateRandomFloat(min, max) {
   return parseFloat((Math.random() * (max - min) + min).toFixed(2));
@@ -64,4 +66,4 @@ insertRandomData()
   .catch((err) => {
     console.error('❌ Initial run failed:', err.message);
   });
-
+	
