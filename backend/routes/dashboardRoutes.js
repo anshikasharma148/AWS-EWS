@@ -4,7 +4,7 @@ const router = express.Router();
 const { awsDB, ewsDB } = require('../db');
 
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
-const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara'];
+const ewsTables = ['ghastoli','vasudhara', 'binakuli', 'mana', 'khiro'];
 
 // Return one latest record from each table in AWS and EWS
 router.get('/', async (req, res) => {
