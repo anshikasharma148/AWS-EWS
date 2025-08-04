@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const fetch = require('node-fetch'); // Required for ping
 const { awsDB, ewsDB } = require('./db');
 
 const app = express();
@@ -11,6 +12,8 @@ const awsRoutes = require('./routes/awsRoutes');
 const ewsRoutes = require('./routes/ewsRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const awsStationRoute = require('./routes/aws-station');
+const awsGraphRoute = require('./routes/awsGraphRoutes'); // ✅ New
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -28,6 +31,7 @@ app.use('/api/aws', awsRoutes);
 app.use('/api/ews', ewsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/aws-station', awsStationRoute);
+app.use('/api/aws-graph', awsGraphRoute); // ✅ Added
 
 // Fetch recent data for all AWS tables
 app.get('/api/aws', async (req, res) => {
