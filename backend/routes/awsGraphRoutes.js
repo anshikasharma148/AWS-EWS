@@ -4,7 +4,7 @@ const { awsDB } = require('../db');
 
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
 
-// Returns date at midnight, N days ago
+// Return midnight date N days ago
 function getMidnightNDaysAgo(n) {
   const date = new Date();
   date.setHours(0, 0, 0, 0);
@@ -15,9 +15,21 @@ function getMidnightNDaysAgo(n) {
 router.get('/', async (req, res) => {
   try {
     const days = parseInt(req.query.days) || 1;
+    let startDate, endDate;
 
-    const startDate = getMidnightNDaysAgo(days - 1);
-    const endDate = getMidnightNDaysAgo(days - 2);
+    if (days === 1) {
+      // Today
+      startDate = getMidnightNDaysAgo(0);
+      endDate = getMidnightNDaysAgo(-1); // tomorrow 00:00
+    } else if (days === 2) {
+      // Yesterday only
+      startDate = getMidnightNDaysAgo(1);
+      endDate = getMidnightNDaysAgo(0);
+    } else {
+      // Last N days (including today)
+      startDate = getMidnightNDaysAgo(days - 1);
+      endDate = getMidnightNDaysAgo(-1); // tomorrow 00:00
+    }
 
     const allData = {};
 
