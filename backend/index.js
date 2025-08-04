@@ -24,7 +24,8 @@ require('./ews-generateData');
 
 // AWS and EWS Table Names
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
-const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara'];
+const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara', 'binakuli', 'mana', 'khiro'];
+
 
 // Routes
 app.use('/api/aws', awsRoutes);
