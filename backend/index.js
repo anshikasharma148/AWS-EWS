@@ -75,7 +75,8 @@ app.get('/', (req, res) => {
 
 // 🔁 PING SERVICE — keeps the server and DB awake
 setInterval(() => {
-  fetch(`http://localhost:${PORT}/`)
+  fetch('https://aws-ews.onrender.com/')
+
     .then(res => console.log(`[PING] Server pinged at ${new Date().toLocaleTimeString()}`))
     .catch(err => console.error('[PING] Failed to ping:', err.message));
 }, 5 * 60 * 1000); // every 5 minutes
