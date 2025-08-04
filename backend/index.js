@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const fetch = require('node-fetch'); // Required for ping
 const { awsDB, ewsDB } = require('./db');
 
 const app = express();
@@ -25,7 +24,6 @@ require('./ews-generateData');
 // AWS and EWS Table Names
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
 const ewsTables = ['ghastoli', 'lambagad', 'sensor_data', 'vasudhara', 'binakuli', 'mana', 'khiro'];
-
 
 // Routes
 app.use('/api/aws', awsRoutes);
@@ -74,11 +72,14 @@ app.get('/', (req, res) => {
 });
 
 // 🔁 PING SERVICE — keeps the server and DB awake
-setInterval(() => {
-  fetch('https://aws-ews.onrender.com/')
-
-    .then(res => console.log(`[PING] Server pinged at ${new Date().toLocaleTimeString()}`))
-    .catch(err => console.error('[PING] Failed to ping:', err.message));
+setInterval(async () => {
+  try {
+    const fetch = (await import('node-fetch')).default;
+    await fetch('https://aws-ews.onrender.com/');
+    console.log(`[PING] Server pinged at ${new Date().toLocaleTimeString()}`);
+  } catch (err) {
+    console.error('[PING] Failed to ping:', err.message);
+  }
 }, 5 * 60 * 1000); // every 5 minutes
 
 // Start server
