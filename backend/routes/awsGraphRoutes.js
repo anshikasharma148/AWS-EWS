@@ -4,26 +4,34 @@ const { awsDB } = require('../db');
 
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
 
-// Helper to get date N days ago
-function getDateNDaysAgo(n) {
+// Get start date (n days ago, at 00:00)
+function getStartDateNDaysAgo(n) {
   const date = new Date();
-  date.setHours(0, 0, 0, 0); // start of today
+  date.setHours(0, 0, 0, 0); // today at 00:00
   date.setDate(date.getDate() - (n - 1)); // n=1 => today, n=2 => yesterday, etc.
   return date;
 }
 
-// Get filtered data from all AWS tables based on `days`
+// Get end date (start of the next day after range)
+function getEndDateNDaysAgo(n) {
+  const date = new Date();
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() - (n - 2)); // exclusive upper bound
+  return date;
+}
+
 router.get('/', async (req, res) => {
   try {
-    const days = parseInt(req.query.days) || 1; // default to 1 (today)
-    const sinceDate = getDateNDaysAgo(days);
+    const days = parseInt(req.query.days) || 1;
+    const startDate = getStartDateNDaysAgo(days);
+    const endDate = getEndDateNDaysAgo(1); // always up to today at 00:00
 
     const allData = {};
 
     for (const table of awsTables) {
       const [rows] = await awsDB.query(
-        `SELECT * FROM \`${table}\` WHERE timestamp >= ? ORDER BY timestamp ASC`,
-        [sinceDate]
+        `SELECT * FROM \`${table}\` WHERE timestamp >= ? AND timestamp < ? ORDER BY timestamp ASC`,
+        [startDate, endDate]
       );
       allData[table] = rows;
     }
