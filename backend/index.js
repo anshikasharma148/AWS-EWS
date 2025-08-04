@@ -18,9 +18,6 @@ const awsStationAllDataRoute = require('./routes/awsStationAllData');
 app.use(cors());
 app.use(express.json());
 
-// Start mock data generation
-require('./aws-generateData');
-require('./ews-generateData');
 
 // AWS and EWS Table Names
 const awsTables = ['binakuli', 'mana', 'vasudhara', 'vishnu_prayag'];
