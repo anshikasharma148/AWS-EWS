@@ -14,6 +14,7 @@ const awsStationRoute = require('./routes/aws-station');
 const awsGraphRoute = require('./routes/awsGraphRoutes'); // ✅ New
 const awsStationAllDataRoute = require('./routes/awsStationAllData');
 const ewsGraphRoute = require('./routes/ewsGraphRoutes');
+const ewsStationAllDataRoute = require('./routes/ewsStationAllData');
 
 
 // Middleware
@@ -33,6 +34,7 @@ app.use('/api/aws-station', awsStationRoute);
 app.use('/api/aws-graph', awsGraphRoute); // ✅ Added
 app.use('/api/aws-all', awsStationAllDataRoute);
 app.use('/api/ews-graph', ewsGraphRoute);
+app.use('/api/ews-all', ewsStationAllDataRoute);
 
 // Fetch recent data for all AWS tables
 app.get('/api/aws', async (req, res) => {
